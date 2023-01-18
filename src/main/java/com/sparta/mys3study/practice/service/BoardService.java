@@ -3,7 +3,6 @@ package com.sparta.mys3study.practice.service;
 import com.sparta.mys3study.practice.entity.Board;
 import com.sparta.mys3study.practice.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,5 +21,9 @@ public class BoardService {
         Board findBoard = boardRepository.findById(boardsId).orElseThrow();
 
         return findBoard;
+    }
+
+    public void deleteBoard(Long boardId) {
+        boardRepository.deleteById(boardId);
     }
 }

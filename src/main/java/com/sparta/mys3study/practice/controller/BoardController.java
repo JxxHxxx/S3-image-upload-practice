@@ -36,7 +36,7 @@ public class BoardController {
         String imageURL = s3ImageOrigin + objectKey;
         boardService.createBoard(imageURL, title); // DB에 이미지 URL 저장
 
-        return new ResponseEntity<>("저장 완료", HttpStatus.OK);
+        return new ResponseEntity<>("저장 완료", HttpStatus.CREATED);
     }
 
     @ResponseBody
@@ -44,5 +44,19 @@ public class BoardController {
     public ResponseEntity<Board> findBoardV2(@PathVariable Long boardsId) {
         Board board = boardService.findBoard(boardsId);
         return new ResponseEntity<>(board,HttpStatus.OK);
+    }
+
+    @ResponseBody
+    @DeleteMapping("/v2/boards/{boardsId}")
+    public ResponseEntity<Object> deleteBoardV2(@PathVariable Long boardsId) {
+        Board board = boardService.findBoard(boardsId);
+
+        String imageUrl = board.getImageUrl();
+        String objectKey = imageUrl.substring(s3ImageOrigin.length());
+        amazonS3Service.deleteBucketObject(objectKey);
+
+        boardService.deleteBoard(boardsId);
+
+        return new ResponseEntity<>("삭제 완료", HttpStatus.OK);
     }
 }

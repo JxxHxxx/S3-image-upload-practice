@@ -44,6 +44,23 @@ public class AmazonS3Service {
         return "";
     }
 
+    public void deleteBucketObject(String objectKey) {
+
+        try {
+            DeleteObjectRequest deleteObjectRequest = DeleteObjectRequest.builder()
+                    .bucket(bucketName)
+                    .key(objectKey)
+                    .build();
+
+            s3Client.deleteObject(deleteObjectRequest);
+
+
+        } catch (S3Exception e) {
+            System.err.println(e.awsErrorDetails().errorMessage());
+            System.exit(1);
+        }
+    }
+
     public void getURL(String objectKey) {
 
         try {
