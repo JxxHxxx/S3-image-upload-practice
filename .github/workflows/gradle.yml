@@ -68,6 +68,17 @@ jobs:
 #          region: ap-northeast-2
 #          deployment_package: deploy/deploy.zip
 
+      - name: Get current time
+        uses: 1466587594/get-current-time@v2
+        id: current-time
+        with:
+          format: YYYY-MM-DDTHH-mm-ss # (1)
+          utcOffset: "+09:00"
+
+      - name: Show Current Time
+        run: echo "CurrentTime=${{steps.current-time.outputs.formattedTime}}" # (2)
+        shell: bash
+
       - name : Generate deployment package
         run: zip -r ./mys3study.zip .
 
@@ -78,6 +89,6 @@ jobs:
           aws_secret_key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
           application_name: my-java-web
           environment_name: javaweb-env-1
-#          version_label : github-action-${{steps.current-time.outputs.formattedTime}}
+          version_label : github-action-${{steps.current-time.outputs.formattedTime}}
           region: ap-northeast-2
           deployment_package: ./mys3study.zip
