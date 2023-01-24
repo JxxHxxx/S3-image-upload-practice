@@ -38,6 +38,15 @@ jobs:
         run: ./gradlew clean build
         shell: bash
 
+      - name: make application.properties
+        run: |
+          echo ">> mkdir & touch"
+          mkdir -p ./src/main/resources
+          cd ./src/main/resources
+          touch ./application.properties
+          echo ">> copy application.properties"
+          echo "${{ secrets.PROPERTIES }}" >> ./application.properties
+
 #    - name : Generate deployment package
 #      run: zip -r ./mys3study.zip .
 #
