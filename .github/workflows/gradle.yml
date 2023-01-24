@@ -47,17 +47,17 @@ jobs:
         run: ./gradlew clean build
         shell: bash
 
-#    - name : Generate deployment package
-#      run: zip -r ./mys3study.zip .
-#
-#
-#    - name: Deploy Consumer to EB
-#      user: einaregilsson/beanstalk-deploy@v16
-#      with:
-#        aws_access_key: ${{secrets.AWS_ACCESS_KEY_ID}}
-#        aws_secret_key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
-#        application_name: my-java-web
-#        environment_name: Myjavaweb-env
-#        version_label : github-action-${{steps.current-time.outputs.formattedTime}}
-#        region: ap-northeast-2
-#        deployment_package: ./mys3study.zip
+      - name : Generate deployment package
+        run: zip -r ./mys3study.zip .
+
+
+      - name: Deploy Consumer to EB
+        user: einaregilsson/beanstalk-deploy@v16
+        with:
+          aws_access_key: ${{secrets.AWS_ACCESS_KEY_ID}}
+          aws_secret_key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+          application_name: my-java-web
+          environment_name: Myjavaweb-env
+          version_label : github-action-${{steps.current-time.outputs.formattedTime}}
+          region: ap-northeast-2
+          deployment_package: ./mys3study.zip
