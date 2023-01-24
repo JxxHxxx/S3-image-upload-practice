@@ -30,19 +30,29 @@ jobs:
           java-version: '11'
           distribution: 'temurin'
 
-      - uses: actions/checkout@v3
-      - run: mkdir -p ./src/main/resources
-      - run: touch ./src/main/resources/application.properties
-      - run: echo "${{ secrets.PROPERTIES }}" > ./src/main/resources/application.properties
-      - run: cat ./src/main/resources/application.properties
+#      - uses: actions/checkout@v3
+#      - run: mkdir -p ./src/main/resources
+#      - run: touch ./src/main/resources/application.properties
+#      - run: echo "${{ secrets.PROPERTIES }}" > ./src/main/resources/application.properties
+#      - run: cat ./src/main/resources/application.properties
 
-      - name: Setup MySQL
-        uses: samin/mysql-action@v1
-        with:
-          character set server: 'utf8'
-          mysql database: 'jxxdatabase'
-          mysql user: 'admin'
-          mysql password: ${{ secrets.MYSQL_PASSWORD }}
+      - name: make application.properties
+        run:
+          mkdir ./src/main/resources |
+          touch ./src/main/resources/application.properties
+        shell: bash
+
+      - name: deliver application.properties
+        run: echo "${{ secrets.PROPERTIES }}" > ./src/main/resources/application.properties
+        shell: bash
+
+#      - name: Setup MySQL
+#        uses: samin/mysql-action@v1
+#        with:
+#          character set server: 'utf8'
+#          mysql database: 'jxxdatabase'
+#          mysql user: 'admin'
+#          mysql password: ${{ secrets.MYSQL_PASSWORD }}
 
       #      - name: make application.properties
 #        run: |
