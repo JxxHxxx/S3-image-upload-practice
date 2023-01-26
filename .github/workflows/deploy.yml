@@ -59,14 +59,21 @@ jobs:
 #        run: echo "CurrentTime=${{steps.current-time.outputs.formattedTime}}"
 #        shell: bash
 
-      #          cp build/libs/*.jar deploy/application.jar
       - name: Generate deployment package
         run: |
           mkdir -p deploy
+          cp build/libs/*.jar deploy/application.jar
           cp Procfile deploy/Procfile
           cp -r .ebextensions deploy/.ebextensions
           cp -r .platform deploy/.platform
           cd deploy && zip -r deploy.zip .
+
+#          mkdir -p deploy
+#          cp build/libs/*.jar deploy/application.jar  # 빌드 완료 시 JAR 파일명을 application.jar로 변경
+#          cp Procfile deploy/Procfile
+#          cp -r .ebextensions deploy/.ebextensions
+#          cp -r .platform deploy/.platform
+#          cd deploy && zip -r deploy.zip . # Procfile, .ebextensions, .playform 포함하여 zip 생성
 
       - name: Deploy to EB
         uses: einaregilsson/beanstalk-deploy@v16
